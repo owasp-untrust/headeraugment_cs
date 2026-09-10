@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Owasp.Untrust.HeaderAugmentation</PackageId>
+    <Description>Secure default browser headers for ASP.NET Core file responses.</Description>
+    <PackageTags>owasp;security;aspnetcore;csp;files;svg</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

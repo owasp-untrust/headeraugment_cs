@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Owasp.Untrust.HeaderAugmentation", "src\Owasp.Untrust.HeaderAugmentation\Owasp.Untrust.HeaderAugmentation.csproj", "{B7C0F00A-2F06-4C3B-9D31-364DB6CC7362}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Owasp.Untrust.HeaderAugmentation.Tests", "tests\Owasp.Untrust.HeaderAugmentation.Tests\Owasp.Untrust.HeaderAugmentation.Tests.csproj", "{D124A5A2-4E9E-49BB-8D3C-02BD298EDBAA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7C0F00A-2F06-4C3B-9D31-364DB6CC7362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7C0F00A-2F06-4C3B-9D31-364DB6CC7362}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7C0F00A-2F06-4C3B-9D31-364DB6CC7362}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7C0F00A-2F06-4C3B-9D31-364DB6CC7362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D124A5A2-4E9E-49BB-8D3C-02BD298EDBAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D124A5A2-4E9E-49BB-8D3C-02BD298EDBAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D124A5A2-4E9E-49BB-8D3C-02BD298EDBAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D124A5A2-4E9E-49BB-8D3C-02BD298EDBAA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
