@@ -1,21 +1,39 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Metadata;
+using Microsoft.AspNetCore.Routing;
 
 namespace Owasp.Untrust.HeaderAugmentation;
 
 /// <summary>
-/// Provides minimal-API endpoint registration for restrictive browser-file headers.
+/// Provides minimal-API group and endpoint registration for restrictive browser-file headers.
 /// </summary>
 public static class HeaderAugmentationRouteHandlerBuilderExtensions
 {
     /// <summary>
-    /// Adds restrictive headers to an <see cref="IFileHttpResult"/> returned by this endpoint,
-    /// unless the endpoint is explicitly marked as trusted.
+    /// Creates a route group whose endpoints receive restrictive headers for every
+    /// <see cref="IFileHttpResult"/> they return, unless the endpoint is explicitly marked as trusted.
     /// </summary>
-    /// <param name="builder">The route handler builder for a minimal-API endpoint.</param>
-    /// <returns>The same route handler builder.</returns>
-    public static RouteHandlerBuilder WithHeaderAugmentation(this RouteHandlerBuilder builder)
+    /// <param name="endpoints">The endpoint route builder.</param>
+    /// <param name="prefix">The route-pattern prefix for the group.</param>
+    /// <returns>The configured route group.</returns>
+    public static RouteGroupBuilder MapHeaderAugmentationGroup(this IEndpointRouteBuilder endpoints, string prefix = "")
+    {
+        ArgumentNullException.ThrowIfNull(endpoints);
+
+        RouteGroupBuilder group = endpoints.MapGroup(prefix);
+        return group.WithHeaderAugmentation();
+    }
+
+    /// <summary>
+    /// Adds restrictive headers to <see cref="IFileHttpResult"/> values returned by endpoints
+    /// mapped through this builder, unless an endpoint is explicitly marked as trusted.
+    /// </summary>
+    /// <typeparam name="TBuilder">The endpoint or route-group builder type.</typeparam>
+    /// <param name="builder">The builder whose endpoints receive the filter.</param>
+    /// <returns>The same builder.</returns>
+    public static TBuilder WithHeaderAugmentation<TBuilder>(this TBuilder builder)
+        where TBuilder : IEndpointConventionBuilder
     {
         ArgumentNullException.ThrowIfNull(builder);
         builder.AddEndpointFilter(HeaderAugmentationEndpointFilter.Instance);

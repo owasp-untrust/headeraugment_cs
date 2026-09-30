@@ -1,3 +1,8 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -21,6 +26,32 @@ public static class HeaderAugmentationServiceCollectionExtensions
 
         services.TryAddEnumerable(
             ServiceDescriptor.Singleton<IConfigureOptions<MvcOptions>, ConfigureHeaderAugmentationMvcOptions>());
+        services.SetupSecureCookies();
+        return services;
+    }
+
+    /// <summary>
+    /// Configures secure cookie defaults and ensures the cookie-policy middleware is active.
+    /// </summary>
+    /// <param name="services">The application service collection, before the application is built.</param>
+    /// <returns>The same service collection.</returns>
+    public static IServiceCollection SetupSecureCookies(this IServiceCollection services)
+    {
+        ArgumentNullException.ThrowIfNull(services);
+
+        services.Configure<CookiePolicyOptions>(cookiePolicy =>
+        {
+            cookiePolicy.HttpOnly = HttpOnlyPolicy.Always;
+            cookiePolicy.Secure = CookieSecurePolicy.Always;
+            cookiePolicy.MinimumSameSitePolicy = SameSiteMode.Strict;
+        });
+        services.ConfigureApplicationCookie(authentication =>
+        {
+            authentication.Cookie.HttpOnly = true;
+            authentication.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            authentication.Cookie.SameSite = SameSiteMode.Strict;
+        });
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IStartupFilter, ConfigureSecureCookiePolicyStartupFilter>());
         return services;
     }
 
@@ -30,5 +61,14 @@ public static class HeaderAugmentationServiceCollectionExtensions
         {
             options.Filters.Add(new HeaderAugmentationMvcResultFilter());
         }
+    }
+
+    private sealed class ConfigureSecureCookiePolicyStartupFilter : IStartupFilter
+    {
+        public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next) => application =>
+        {
+            application.UseCookiePolicy();
+            next(application);
+        };
     }
 }

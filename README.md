@@ -14,6 +14,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHeaderAugmentation();
 ```
 
+Activating HeaderAugmentation also configures secure cookie defaults and adds
+`UseCookiePolicy()` to the application pipeline: all cookies are HTTP-only and
+secure, with `SameSite=Strict`; the Identity application cookie receives the
+same settings. No separate post-build setup call is required.
+
 All MVC `FileResult` variants receive:
 
 ```text
@@ -23,14 +28,19 @@ X-Content-Type-Options: nosniff
 
 ## Minimal APIs
 
-ASP.NET Core does not provide a global minimal-API endpoint-filter registration.
-Apply the endpoint extension to every endpoint or route group that returns file
-results:
+Map minimal APIs through one root group. The group filter is inherited by every
+endpoint mapped through it, so individual handlers do not need to remember an
+opt-in call:
 
 ```csharp
-app.MapGet("/files/{id}", GetFile)
-   .WithHeaderAugmentation();
+RouteGroupBuilder api = app.MapHeaderAugmentationGroup();
+api.MapGet("/files/{id}", GetFile);
+api.MapGet("/health", GetHealth);
 ```
+
+The filter only augments `IFileHttpResult` values; non-file responses remain
+unchanged. Use `WithHeaderAugmentation()` on a smaller group when only part of
+the minimal-API surface should participate.
 
 ## Explicit trusted exception
 
