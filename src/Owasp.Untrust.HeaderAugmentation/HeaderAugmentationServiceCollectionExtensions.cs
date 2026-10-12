@@ -27,6 +27,8 @@ public static class HeaderAugmentationServiceCollectionExtensions
         services.TryAddEnumerable(
             ServiceDescriptor.Singleton<IConfigureOptions<MvcOptions>, ConfigureHeaderAugmentationMvcOptions>());
         services.SetupSecureCookies();
+        RequestLimits.Apply(services);
+        AntiforgeryToken.Apply(services);
         return services;
     }
 

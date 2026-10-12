@@ -10,11 +10,11 @@ public static class HeaderAugmentationDefaults
     /// <summary>
     /// Gets the restrictive content security policy applied to file responses.
     /// </summary>
-    public const string ContentSecurityPolicy = "sandbox; default-src 'none'; base-uri 'none'; form-action 'none'";
+    public const string CONTENT_SECURITY_POLICY = "sandbox; default-src 'none'; base-uri 'none'; form-action 'none'";
 
     internal static void Apply(HttpResponse response)
     {
-        response.Headers.TryAdd("Content-Security-Policy", ContentSecurityPolicy);
+        response.Headers.TryAdd("Content-Security-Policy", CONTENT_SECURITY_POLICY);
         response.Headers.TryAdd("X-Content-Type-Options", "nosniff");
     }
 }

@@ -18,7 +18,7 @@ public sealed class HeaderAugmentationMvcResultFilterTests
     {
         DefaultHttpContext httpContext = await ExecuteAsync(new FileContentResult([], "image/png"));
 
-        Assert.Equal(HeaderAugmentationDefaults.ContentSecurityPolicy,
+        Assert.Equal(HeaderAugmentationDefaults.CONTENT_SECURITY_POLICY,
             httpContext.Response.Headers["Content-Security-Policy"]);
         Assert.Equal("nosniff", httpContext.Response.Headers["X-Content-Type-Options"]);
     }
@@ -28,7 +28,7 @@ public sealed class HeaderAugmentationMvcResultFilterTests
     {
         DefaultHttpContext httpContext = await ExecuteAsync(new FileContentResult([], "image/svg+xml"));
 
-        Assert.Equal(HeaderAugmentationDefaults.ContentSecurityPolicy,
+        Assert.Equal(HeaderAugmentationDefaults.CONTENT_SECURITY_POLICY,
             httpContext.Response.Headers["Content-Security-Policy"]);
     }
 
@@ -37,7 +37,7 @@ public sealed class HeaderAugmentationMvcResultFilterTests
     {
         DefaultHttpContext httpContext = await ExecuteAsync(new FileStreamResult(Stream.Null, "application/octet-stream"));
 
-        Assert.Equal(HeaderAugmentationDefaults.ContentSecurityPolicy,
+        Assert.Equal(HeaderAugmentationDefaults.CONTENT_SECURITY_POLICY,
             httpContext.Response.Headers["Content-Security-Policy"]);
     }
 
@@ -46,7 +46,7 @@ public sealed class HeaderAugmentationMvcResultFilterTests
     {
         DefaultHttpContext httpContext = await ExecuteAsync(new PhysicalFileResult("C:\\files\\example.txt", "text/plain"));
 
-        Assert.Equal(HeaderAugmentationDefaults.ContentSecurityPolicy,
+        Assert.Equal(HeaderAugmentationDefaults.CONTENT_SECURITY_POLICY,
             httpContext.Response.Headers["Content-Security-Policy"]);
     }
 

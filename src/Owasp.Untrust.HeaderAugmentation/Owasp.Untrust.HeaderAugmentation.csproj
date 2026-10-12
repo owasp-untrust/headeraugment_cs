@@ -3,9 +3,16 @@
     <PackageId>Owasp.Untrust.HeaderAugmentation</PackageId>
     <Description>Secure default browser headers for ASP.NET Core file responses.</Description>
     <PackageTags>owasp;security;aspnetcore;csp;files;svg</PackageTags>
+    <BuildGatesConfigurationDirectory>$(MSBuildProjectDirectory)</BuildGatesConfigurationDirectory>
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <None Include="../../README.md" Pack="true" PackagePath="\" />
+    <CompilerVisibleProperty Include="BuildGatesConfigurationDirectory" />
+    <ProjectReference Include="$(MSBuildProjectDirectory)\..\..\..\BuildGates_cs\src\Owasp.Untrust.BuildGates\Owasp.Untrust.BuildGates.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+    <AdditionalFiles Include="$(MSBuildProjectDirectory)\..\..\..\*.json" />
+    <AdditionalFiles Include="$(ProjectAssetsFile)" Condition="Exists('$(ProjectAssetsFile)')" Link="project.assets.json" />
   </ItemGroup>
 </Project>

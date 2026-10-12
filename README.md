@@ -14,10 +14,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHeaderAugmentation();
 ```
 
-Activating HeaderAugmentation also configures secure cookie defaults and adds
-`UseCookiePolicy()` to the application pipeline: all cookies are HTTP-only and
-secure, with `SameSite=Strict`; the Identity application cookie receives the
-same settings. No separate post-build setup call is required.
+Activating HeaderAugmentation also configures secure cookie defaults, 64 KiB
+request-body and 32 KiB multipart limits, and global MVC antiforgery validation
+using the `X-CSRF-TOKEN` header. It adds `UseCookiePolicy()` to the application
+pipeline: all cookies are HTTP-only and secure, with `SameSite=Strict`; the
+Identity application cookie receives the same settings. No separate post-build
+setup call is required.
 
 All MVC `FileResult` variants receive:
 
